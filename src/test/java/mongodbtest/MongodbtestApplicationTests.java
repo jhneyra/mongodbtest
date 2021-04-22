@@ -1,6 +1,9 @@
 package mongodbtest;
 
+import mongodbtest.entity.LogQuery;
 import mongodbtest.entity.Person;
+import mongodbtest.repository.LogQueryRepository;
+import mongodbtest.repository.PersonRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,9 @@ class MongodbtestApplicationTests
 
     @Autowired
     PersonRepository repository;
+
+    @Autowired
+    LogQueryRepository logQueryRepository;
 
     @Test
     void contextLoads()
@@ -26,6 +32,11 @@ class MongodbtestApplicationTests
         Assertions.assertEquals(1, total);
         Person response = repository.findByName("Juan Perez");
         Assertions.assertEquals(p1.getId(), response.getId());
+
+        Iterable<LogQuery> logs = logQueryRepository.findAll();
+        LogQuery logQuery = logs.iterator().next();
+        System.out.println(logQuery.getMethodName());
+        Assertions.assertNotNull(logQuery);
     }
 
 }
